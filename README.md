@@ -1,10 +1,10 @@
-# Discord.JS-Example
+# Discord.JS-Community-Bot
 
-This is an example project for using Discord.JS library.
+This is a bot for a community Discord server using the Discord.js library.
 
 ## Installation
 
-1. Clone this repository `git clone https://github.com/FAYStarNext/Discord.JS-Example && cd Discord.JS-Example`
+1. Clone this repository `git clone https://github.com/FAYStarNext/Discord.JS-Community-Bot && cd Discord.JS-Community-Bot`
 2. Run `npm install` to install the dependencies.
 
 ## Usage
