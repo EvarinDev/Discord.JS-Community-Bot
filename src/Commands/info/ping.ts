@@ -7,7 +7,7 @@ export default new CommandBuilder({
         description: "Ping!",
     },
     async run(client, interaction) {
-        let embed = new EmbedBuilder()
+        const embed = new EmbedBuilder()
             .setTitle("Pong!")
             .setDescription(`API Latency: ${client.ws.ping}ms`);
         return await interaction.reply({ embeds: [embed] });

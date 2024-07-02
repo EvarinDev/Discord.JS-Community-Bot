@@ -1,4 +1,4 @@
-import { ActivityType, Client, GatewayDispatchEvents, Routes } from "discord.js";
+import { ActivityType, Client, Routes } from "discord.js";
 import { REST } from "@discordjs/rest";
 import fs from "fs";
 import path from "path";
@@ -7,7 +7,7 @@ import { Logger } from "../Logger";
 import { CommandBuilder } from "../util/CommandBuilder";
 
 export class Discord extends Client {
-    public _Command: Map<string, CommandBuilder> = new Map();
+    public command = new Map<string, CommandBuilder>();
     constructor() {
         super({
             intents: ["Guilds"],
@@ -27,7 +27,7 @@ export class Discord extends Client {
         this.on("error", Logger.error);
         this.on("interactionCreate", async (interaction) => {
             if (!interaction.isCommand()) return;
-            const command = this._Command.get(interaction.commandName);
+            const command = this.command.get(interaction.commandName);
             if (!command) return;
             try {
                 await command.run(this, interaction);
@@ -56,7 +56,7 @@ export class Discord extends Client {
                 for (const commandFile of commandsInFolder) {
                     const command = await import(`../Commands/${folder}/${commandFile}`).then((c) => c.default);
                     commands.push(command.data);
-                    this._Command.set(command.data.name, command);
+                    this.command.set(command.data.name, command);
                     Logger.debug(`Loaded Command: ${command.data.name}`);
                 }
             }
@@ -66,7 +66,7 @@ export class Discord extends Client {
                     rest.put(Routes.applicationGuildCommands(Config.CLIENT_ID, Config.GUILD_ID), { body: commands }).then(() => Logger.info(`Successfully reloaded application (/) commands.`))
                 ]);
         }
-        catch (e: any) {
+        catch (e) {
             console.error(e);
         }
     }

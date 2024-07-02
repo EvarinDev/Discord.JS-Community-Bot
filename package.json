@@ -8,14 +8,12 @@
     "dev": "npx tsc-watch --onSuccess \"cross-env NODE_ENV=development node dist/index.js\" --onFailure \"echo 'Build failed'\"",
     "build": "npx tsc -p .",
     "start": "cross-env NODE_ENV=production node dist/index.js",
-    "lint": "npx eslint . --ext .ts",
-    "lint:fix": "npx eslint . --ext .ts --fix",
     "bun:dev": "NODE_ENV=development bun --watch src/index.ts"
   },
   "author": "FAYStarNext",
   "license": "MIT",
   "devDependencies": {
-    "eslint": "^9.0.0",
+    "globals": "^15.7.0",
     "typescript": "^5.4.4"
   },
   "dependencies": {

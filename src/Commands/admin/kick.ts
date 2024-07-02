@@ -21,9 +21,9 @@ export default new CommandBuilder({
         ],
     },
     async run(client, interaction) {
-        let user = interaction.options.getUser("user");
-        let reason = interaction.options.getString("reason") || "No reason provided";
-        let member = interaction.guild?.members.cache.get(user?.id as string);
+        const user = interaction.options.getUser("user");
+        const reason = interaction.options.getString("reason") || "No reason provided";
+        const member = interaction.guild?.members.cache.get(user?.id as string);
         if (member) {
             member.kick(reason);
             return await interaction.reply({ content: `${user?.tag} has been kicked!` });
