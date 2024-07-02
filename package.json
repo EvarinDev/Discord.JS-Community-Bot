@@ -11,6 +11,7 @@
   "author": "FAYStarNext",
   "license": "Apache-2.0",
   "devDependencies": {
+    "@types/bun": "^1.1.6",
     "globals": "^15.7.0",
     "typescript": "^5.4.4"
   },
