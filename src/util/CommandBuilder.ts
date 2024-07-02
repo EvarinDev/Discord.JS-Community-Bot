@@ -8,7 +8,7 @@ export type SlashCommandOptions = {
   data: ApplicationCommandData;
   run: (
       client: Discord,
-      interaction: ChatInputCommandInteraction | any,
+      interaction: ChatInputCommandInteraction,
   ) => Promise<void | any>;
 };
 

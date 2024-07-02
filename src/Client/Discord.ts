@@ -7,7 +7,7 @@ import { Logger } from "../Logger";
 import { CommandBuilder } from "../util/CommandBuilder";
 
 export class Discord extends Client {
-    public command = new Map<string, CommandBuilder>();
+    public command = new Map<string, CommandBuilder | any>();
     constructor() {
         super({
             intents: ["Guilds"],
@@ -30,7 +30,11 @@ export class Discord extends Client {
             const command = this.command.get(interaction.commandName);
             if (!command) return;
             try {
-                await command.run(this, interaction);
+                return Promise.resolve(command.execute(this, interaction).then(() => {
+                    Logger.info(`SlashCommand used by ${interaction.user.username} Guild: ${interaction.guild?.name} : ${interaction.commandName}`);
+                }).catch((error: Error) => {
+                    return interaction.reply(`Command Error: ${error}`)
+                }));
             } catch (e) {
                 Logger.error(e);
                 await interaction.reply({ content: "There was an error while executing this command!", ephemeral: true });
