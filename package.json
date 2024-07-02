@@ -2,16 +2,16 @@
   "name": "discord-bot-community",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/index.js",
+  "main": "src/index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "npx tsc-watch --onSuccess \"cross-env NODE_ENV=development node dist/index.js\" --onFailure \"echo 'Build failed'\"",
-    "start": "cross-env NODE_ENV=production node dist/index.js",
-    "bun:dev": "NODE_ENV=development bun --watch src/index.ts"
+    "dev:debug": "NODE_ENV=development bun src/index.ts",
+    "dev": "NODE_ENV=development bun --watch src/index.ts",
+    "start": "NODE_ENV=production bun src/index.ts"
   },
   "author": "FAYStarNext",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "devDependencies": {
+    "@types/bun": "^1.1.6",
     "globals": "^15.7.0",
     "typescript": "^5.4.4"
   },

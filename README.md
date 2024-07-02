@@ -5,14 +5,15 @@ This is a bot for a community Discord server using the Discord.js library.
 ## Installation
 
 1. Clone this repository `git clone https://github.com/FAYStarNext/Discord.JS-Community-Bot && cd Discord.JS-Community-Bot`
-2. Run `npm install` to install the dependencies.
+2. Run `bun install` to install the dependencies.
 
 ## Usage
 
 1. Create a new Discord bot on the [Discord Developer Portal](https://discord.com/developers/applications).
-2. Copy the bot token and Put the token in src/config.ts.
-3. Run `npm run build`
-4. Run `npm start` to start the bot.
+2. Rename .env.example to .env.
+3. Copy the Guild ID and Client ID from Discord.
+4. Copy the bot token and paste it into the .env file
+5. Run `bun start` to start the bot.
 
 ## Contributing
 
