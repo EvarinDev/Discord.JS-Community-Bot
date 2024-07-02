@@ -1,5 +1,5 @@
 {
-  "name": "discord-bot-template",
+  "name": "discord-bot-community",
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
@@ -9,7 +9,8 @@
     "build": "npx tsc -p .",
     "start": "cross-env NODE_ENV=production node dist/index.js",
     "lint": "npx eslint . --ext .ts",
-    "lint:fix": "npx eslint . --ext .ts --fix"
+    "lint:fix": "npx eslint . --ext .ts --fix",
+    "bun:dev": "NODE_ENV=development bun --watch src/index.ts"
   },
   "author": "FAYStarNext",
   "license": "MIT",
@@ -18,8 +19,11 @@
     "typescript": "^5.4.4"
   },
   "dependencies": {
+    "@discordjs/rest": "^2.3.0",
+    "ansi-colors": "^4.1.3",
     "cross-env": "^7.0.3",
-    "discord.js": "^14.14.1",
+    "discord.js": "14.13.0",
+    "dotenv": "^16.4.5",
     "tsc-watch": "^6.2.0"
   }
 }

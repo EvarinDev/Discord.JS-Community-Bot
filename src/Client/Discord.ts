@@ -1,21 +1,30 @@
-import { Client, Collection, REST, Routes } from "discord.js";
+import { ActivityType, Client, GatewayDispatchEvents, Routes } from "discord.js";
+import { REST } from "@discordjs/rest";
 import fs from "fs";
 import path from "path";
-import { config } from "../Config";
+import Config from "../Config";
+import { Logger } from "../Logger";
+import { CommandBuilder } from "../util/CommandBuilder";
 
 export class Discord extends Client {
-    public _Command = new Collection<string, any>();
+    public _Command: Map<string, CommandBuilder> = new Map();
     constructor() {
         super({
             intents: ["Guilds"],
             presence: {
                 status: "online",
+                activities: [
+                    {
+                        name: "with Discord API",
+                        type: ActivityType.Streaming,
+                    }
+                ],
             }
         });
-        this.init(config.CLIENT_TOKEN);
         this.on("ready", () => {
-            console.log(`Logged in as ${this.user?.tag}`);
+            Logger.info(`Logged in as ${this.user?.tag} ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB ENV: ${process.env.NODE_ENV}`);
         });
+        this.on("error", Logger.error);
         this.on("interactionCreate", async (interaction) => {
             if (!interaction.isCommand()) return;
             const command = this._Command.get(interaction.commandName);
@@ -23,12 +32,12 @@ export class Discord extends Client {
             try {
                 await command.run(this, interaction);
             } catch (e) {
-                console.error(e);
+                Logger.error(e);
                 await interaction.reply({ content: "There was an error while executing this command!", ephemeral: true });
             }
         });
     }
-    private init(token?: string) {
+    public init(token: string) {
         if (!token) {
             throw new Error("No token provided");
         } else {
@@ -48,27 +57,16 @@ export class Discord extends Client {
                     const command = await import(`../Commands/${folder}/${commandFile}`).then((c) => c.default);
                     commands.push(command.data);
                     this._Command.set(command.data.name, command);
-                    console.log(`Loaded Command: ${command.data.name}`);
+                    Logger.debug(`Loaded Command: ${command.data.name}`);
                 }
             }
-            console.log(`Started refreshing application (/) commands.`);
-            const rest = new REST({ version: '10' }).setToken(config.CLIENT_TOKEN);
-            if (process.env.NODE_ENV == "production") {
-                this.application?.commands.set([...commands.values()]);
-            } else {
-                if (!config.CLIENT_ID) {
-                    throw new Error("No Client ID provided");
-                } else if (!config.CLIENT_GUILD) {
-                    throw new Error("No Client Guild provided");
-                } else {
-                    await Promise.all([
-                        rest.put(Routes.applicationGuildCommands(config.CLIENT_ID, config.CLIENT_GUILD), { body: commands }),
-                    ]);
-                }
-            }
-            console.log(`Successfully reloaded application (/) commands.`);
+            const rest = new REST({ version: '10' }).setToken(Config.TOKEN);
+            Logger.info(`Started refreshing application (/) commands.`),
+                await Promise.all([
+                    rest.put(Routes.applicationGuildCommands(Config.CLIENT_ID, Config.GUILD_ID), { body: commands }).then(() => Logger.info(`Successfully reloaded application (/) commands.`))
+                ]);
         }
-        catch (e) {
+        catch (e: any) {
             console.error(e);
         }
     }

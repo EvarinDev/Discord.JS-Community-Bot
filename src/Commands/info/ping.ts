@@ -1,3 +1,4 @@
+import { EmbedBuilder } from "discord.js";
 import { CommandBuilder } from "../../util/CommandBuilder";
 
 export default new CommandBuilder({
@@ -6,6 +7,9 @@ export default new CommandBuilder({
         description: "Ping!",
     },
     async run(client, interaction) {
-        interaction.reply("Pong!");
+        let embed = new EmbedBuilder()
+            .setTitle("Pong!")
+            .setDescription(`API Latency: ${client.ws.ping}ms`);
+        return await interaction.reply({ embeds: [embed] });
     },
 })

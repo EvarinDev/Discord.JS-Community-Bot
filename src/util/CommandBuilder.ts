@@ -1,4 +1,16 @@
-import { SlashCommandOptions } from "./CommandBuilderOptions";
+import {
+  ApplicationCommandData,
+  ChatInputCommandInteraction,
+} from "discord.js";
+import { Discord } from "../Client/Discord";
+
+export type SlashCommandOptions = {
+  data: ApplicationCommandData;
+  run: (
+      client: Discord,
+      interaction: ChatInputCommandInteraction | any,
+  ) => Promise<void | any>;
+};
 
 export class CommandBuilder {
   constructor(option: SlashCommandOptions) {
