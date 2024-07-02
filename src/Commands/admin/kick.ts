@@ -1,4 +1,4 @@
-import { ApplicationCommandOptionType } from "discord.js";
+import { ApplicationCommandOptionType, GuildMember } from "discord.js";
 import { CommandBuilder } from "../../util/CommandBuilder";
 
 export default new CommandBuilder({
@@ -21,6 +21,7 @@ export default new CommandBuilder({
         ],
     },
     async run(client, interaction) {
+        if ((interaction.member as GuildMember).permissions.has("KickMembers")) return interaction.reply("You do not have permission to use this command");
         const user = interaction.options.getUser("user");
         const reason = interaction.options.getString("reason") || "No reason provided";
         const member = interaction.guild?.members.cache.get(user?.id as string);
