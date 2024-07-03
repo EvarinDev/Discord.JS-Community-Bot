@@ -22,7 +22,7 @@ export class Discord extends Client {
             }
         });
         this.on("ready", () => {
-            Logger.info(`Logged in as ${this.user?.tag} ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB ENV: ${process.env.NODE_ENV}`);
+            Logger.info(`Logged in as ${this.user?.tag} ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB Environment: ${process.env.NODE_ENV}`);
         });
         this.on("error", Logger.error);
         this.on("interactionCreate", async (interaction) => {
