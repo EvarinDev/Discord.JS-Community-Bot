@@ -39,7 +39,7 @@ function logger({
             colors.gray(`[${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB]`),
             colors.gray(`[${date.toLocaleDateString()} ${date.toLocaleTimeString()}]`),
             color(prefixes.get(level) || 'DEBUG'),
-            Name ? `[FAY -> ${Name}] >` : '>',
+            Name ? `[Discord -> ${Name}] >` : '>',
             ...args,
         ]
 
