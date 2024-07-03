@@ -10,7 +10,7 @@ export class Discord extends Client {
     public command = new Map<string, CommandBuilder | any>();
     constructor() {
         super({
-            intents: ["Guilds"],
+            intents: 3149317,
             presence: {
                 status: "online",
                 activities: [
