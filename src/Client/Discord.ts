@@ -52,11 +52,11 @@ export class Discord extends Client {
     public async _registerCommand() {
         try {
             const [slashFiles] = await Promise.all([
-                fs.readdirSync(path.join(__dirname, "../Commands")),
+                fs.readdirSync(path.join("src/Commands")),
             ]);
             const commands = [];
             for (const folder of slashFiles) {
-                const commandsInFolder = fs.readdirSync(path.join(__dirname, `../Commands/${folder}`));
+                const commandsInFolder = fs.readdirSync(path.join(`src/Commands/${folder}`));
                 for (const commandFile of commandsInFolder) {
                     const command = await import(`../Commands/${folder}/${commandFile}`).then((c) => c.default);
                     commands.push(command.data);
