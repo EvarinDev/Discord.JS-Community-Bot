@@ -30,7 +30,7 @@ export class Discord extends Client {
             const command = this.command.get(interaction.commandName);
             if (!command) return;
             try {
-                return Promise.resolve(command.execute(this, interaction).then(() => {
+                return Promise.resolve(command.run(this, interaction).then(() => {
                     Logger.info(`SlashCommand used by ${interaction.user.username} Guild: ${interaction.guild?.name} : ${interaction.commandName}`);
                 }).catch((error: Error) => {
                     return interaction.reply(`Command Error: ${error}`)
