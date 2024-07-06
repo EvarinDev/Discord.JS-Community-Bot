@@ -6,8 +6,8 @@ export default new CommandBuilder({
         name: "serverinfo",
         description: "Get server information",
     },
-    async run(client, interaction) {
-        return await interaction.reply({ embeds: [
+    async run(client, interaction): Promise<void> {
+        await interaction.reply({ embeds: [
             new EmbedBuilder()
                 .setAuthor({
                     name: interaction.guild?.name as string,
@@ -46,5 +46,6 @@ export default new CommandBuilder({
                     }
                 ])
         ] });
+        return;
     },
 })

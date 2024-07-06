@@ -1,4 +1,4 @@
-import { ActivityType, Client, Routes } from "discord.js";
+import { ActivityType, ApplicationCommandType, Client, Routes } from "discord.js";
 import { REST } from "@discordjs/rest";
 import fs from "fs";
 import path from "path";
@@ -7,7 +7,7 @@ import { Logger } from "../Logger";
 import { CommandBuilder } from "../util/CommandBuilder";
 
 export class Discord extends Client {
-    public command = new Map<string, CommandBuilder | any>();
+    public command = new Map<string, CommandBuilder>();
     constructor() {
         super({
             intents: 3149317,
@@ -30,11 +30,17 @@ export class Discord extends Client {
             const command = this.command.get(interaction.commandName);
             if (!command) return;
             try {
-                return Promise.resolve(command.run(this, interaction).then(() => {
-                    Logger.info(`SlashCommand used by ${interaction.user.username} Guild: ${interaction.guild?.name} : ${interaction.commandName}`);
-                }).catch((error: Error) => {
-                    return interaction.reply(`Command Error: ${error}`)
-                }));
+                if (interaction.commandType === ApplicationCommandType.ChatInput) {
+                    return Promise.resolve(command.run(this, interaction).then(() => {
+                        Logger.info(`SlashCommand used by ${interaction.user.username} Guild: ${interaction.guild?.name} : ${interaction.commandName}`);
+                    }).catch((error: Error) => {
+                        return interaction.reply(`Command Error: ${error}`)
+                    }));
+                } else {
+                    // Handle other types of interactions or simply return if not supported
+                    console.log("Unsupported interaction type.");
+                    return;
+                }
             } catch (e) {
                 Logger.error(e);
                 await interaction.reply({ content: "There was an error while executing this command!", ephemeral: true });
@@ -65,10 +71,11 @@ export class Discord extends Client {
                 }
             }
             const rest = new REST({ version: '10' }).setToken(Config.TOKEN);
-            Logger.info(`Started refreshing application (/) commands.`),
-                await Promise.all([
-                    rest.put(Routes.applicationGuildCommands(Config.CLIENT_ID, Config.GUILD_ID), { body: commands }).then(() => Logger.info(`Successfully reloaded application (/) commands.`))
-                ]);
+
+            await Promise.all([
+                Logger.info(`Started refreshing application (/) commands.`),
+                rest.put(Routes.applicationGuildCommands(Config.CLIENT_ID, Config.GUILD_ID), { body: commands }).then(() => Logger.info(`Successfully reloaded application (/) commands.`))
+            ]);
         }
         catch (e) {
             console.error(e);

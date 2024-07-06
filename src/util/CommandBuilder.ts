@@ -9,7 +9,7 @@ export type SlashCommandOptions = {
   run: (
       client: Discord,
       interaction: ChatInputCommandInteraction,
-  ) => Promise<void | any>;
+  ) => Promise<void>;
 };
 
 export class CommandBuilder {

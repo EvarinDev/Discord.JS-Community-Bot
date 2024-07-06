@@ -38,7 +38,7 @@ function logger({
         const log = [
             colors.gray(`[${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB]`),
             colors.gray(`[${date.toLocaleDateString()} ${date.toLocaleTimeString()}]`),
-            color(prefixes.get(level) || 'DEBUG'),
+            color(prefixes.get(level) ?? 'DEBUG'),
             Name ? `[Discord -> ${Name}] >` : '>',
             ...args,
         ]
