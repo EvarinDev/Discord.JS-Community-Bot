@@ -4,7 +4,7 @@ This is a bot for a community Discord server using the Discord.js library.
 
 ## Installation
 
-1. Clone this repository `git clone https://github.com/FAYStarNext/Discord.JS-Community-Bot && cd Discord.JS-Community-Bot`
+1. Clone this repository `git clone https://github.com/EwarinDev/Discord.JS-Community-Bot && cd Discord.JS-Community-Bot`
 2. Run `bun install` to install the dependencies.
 
 ## Usage
