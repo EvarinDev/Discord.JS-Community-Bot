@@ -1,13 +1,13 @@
-import { ActivityType, ApplicationCommandType, Client, Routes } from "discord.js";
+import { ActivityType, ApplicationCommandType, Client, Collection, Routes } from "discord.js";
 import { REST } from "@discordjs/rest";
 import fs from "fs";
 import path from "path";
 import Config from "../Config";
 import { Logger } from "../Logger";
-import { CommandBuilder } from "../util/CommandBuilder";
+import { CommandBuilder } from "../Util/CommandBuilder";
 
 export class Discord extends Client {
-    public command = new Map<string, CommandBuilder>();
+    public command = new Collection<string, CommandBuilder>();
     constructor() {
         super({
             intents: 3149317,
@@ -58,11 +58,11 @@ export class Discord extends Client {
     public async _registerCommand() {
         try {
             const [slashFiles] = await Promise.all([
-                fs.readdirSync(path.join("src/Commands")),
+                fs.readdirSync(path.join(__dirname ,"../Commands")),
             ]);
             const commands = [];
             for (const folder of slashFiles) {
-                const commandsInFolder = fs.readdirSync(path.join(`src/Commands/${folder}`));
+                const commandsInFolder = fs.readdirSync(path.join(__dirname, `../Commands/${folder}`));
                 for (const commandFile of commandsInFolder) {
                     const command = await import(`../Commands/${folder}/${commandFile}`).then((c) => c.default);
                     commands.push(command.data);
@@ -72,7 +72,7 @@ export class Discord extends Client {
             }
             const rest = new REST({ version: '10' }).setToken(Config.TOKEN);
 
-            await Promise.all([
+            return await Promise.all([
                 Logger.info(`Started refreshing application (/) commands.`),
                 rest.put(Routes.applicationGuildCommands(Config.CLIENT_ID, Config.GUILD_ID), { body: commands }).then(() => Logger.info(`Successfully reloaded application (/) commands.`))
             ]);
