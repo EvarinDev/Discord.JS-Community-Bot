@@ -1,6 +1,5 @@
-import { ApplicationCommandOptionType, ChatInputCommandInteraction, CacheType, GuildMember } from "discord.js";
-import { CommandBuilder } from "../../util/CommandBuilder";
-import { Discord } from "../../Client/Discord";
+import { ApplicationCommandOptionType, ChatInputCommandInteraction, GuildMember } from "discord.js";
+import { CommandBuilder } from "../../Util/CommandBuilder";
 
 export default new CommandBuilder({
     data: {

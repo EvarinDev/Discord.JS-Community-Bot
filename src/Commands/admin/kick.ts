@@ -1,5 +1,5 @@
 import { ApplicationCommandOptionType, GuildMember } from "discord.js";
-import { CommandBuilder } from "../../util/CommandBuilder";
+import { CommandBuilder } from "../../Util/CommandBuilder";
 
 export default new CommandBuilder({
     data: {
